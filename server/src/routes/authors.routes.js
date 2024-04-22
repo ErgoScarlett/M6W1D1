@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Authors from '../models/authors.js';
+import CloudinaryAvatar from '../middleware/avatar.js';
 
 export const authorsRoute = Router();
 
@@ -71,3 +72,21 @@ authorsRoute.delete('/:id', async (req, res) => {
     }
 });
         
+
+//PATCH update an avatar
+authorsRoute.patch( '/:authorId/avatar', CloudinaryAvatar, async (req, res) => {
+      try {
+        const author = await Authors.findById(req.params.authorId);
+        if (!author) {
+          return res.status(404).json({ message: 'Author not found' });
+        }
+        author.avatar = req.file.path;
+        const updatedAuthor = await author.save();
+  
+        res.json(updatedAuthor);
+      } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+    }
+  );
+  

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Post from '../models/posts.js';
+import CloudinaryCover from '../middleware/cover.js';
 
 export const postBlogRoute = Router();
 
@@ -70,4 +71,22 @@ postBlogRoute.delete('/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+//PATCH update a cover for a post
+postBlogRoute.patch( '/blogPost/:blogPostId/cover', CloudinaryCover, async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.blogPostId);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+      post.cover = req.file.path;
+      const updatedPost = await post.save();
+
+      res.json(updatedPost);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
+
         
