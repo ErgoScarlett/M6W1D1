@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose'
+import Author from '../models/authors.js'
+
 
 const postSchema = new Schema(
     {
@@ -14,6 +16,10 @@ const postSchema = new Schema(
             type: String,
             required: true
         },
+        content: {
+            type: String,
+            required: true
+          },
         readTime: {
             value: {
                 type: Number,
@@ -25,19 +31,18 @@ const postSchema = new Schema(
             }
         },
         author: {
-            name: {
-                type: String,
-                required: true,
+            type: Schema.Types.ObjectId,
+            ref: "Author",
+          },
+          comments: [{
+            "text": String,
+            "author": {
+              type: Schema.Types.ObjectId,
+              ref: "Author",
             },
-            avatar: {
-                type: String,
-                required: true,
-            }
+        }]
         },
-        content: {
-            type: String,
-            required: true,
-        }
-    })
+        { collection: "posts" }
+    )
 
 export default model('Post', postSchema, 'posts')
