@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose'
-import Author from '../models/authors.js'
 
 
 const postSchema = new Schema(
@@ -32,14 +31,11 @@ const postSchema = new Schema(
         },
         author: {
             type: Schema.Types.ObjectId,
-            ref: "Author",
-          },
-          comments: [{
-            "text": String,
-            "author": {
-              type: Schema.Types.ObjectId,
-              ref: "Author",
-            },
+            ref: "Author"
+        },
+        comments: [{
+            type: Schema.Types.ObjectId,
+            ref: "Comment" 
         }]
         },
         { collection: "posts" }

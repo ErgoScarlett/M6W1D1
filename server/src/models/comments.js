@@ -1,21 +1,18 @@
 import { Schema, model } from "mongoose"
 
-const commentsSchema = new Schema(
+const commentSchema = new Schema(
   {
-    text: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: Schema.Types.ObjectId,
-      ref: "Author",
-    },
-    blog: {
-        type: Schema.Types.ObjectId,
-        ref: "Blog",
-    }
+      content: {
+          type: String,
+          required: true
+      },
+      author: {
+         type: Schema.Types.ObjectId,
+         ref: "Author",
+         required: true
+        }
   },
   { collection: "comments" }
 )
 
-export default model("Comments", commentsSchema)
+export default model("Comment", commentSchema)
